@@ -7,6 +7,7 @@ package com.ceiba.biblioteca.api;
 
 import com.ceiba.biblioteca.facade.FacadeGeneral;
 import com.ceiba.biblioteca.models.Libro;
+import com.ceiba.biblioteca.util.StringUtils;
 import com.ceiba.biblioteca.util.WsUtil;
 import java.io.InputStream;
 import javax.persistence.EntityManager;
@@ -43,17 +44,17 @@ public class LibroResource {
             
             Libro libro = new Libro();
             
-            libro.setLibrId(payload.getInt("librId"));
             libro.setLibrNombre(payload.getString("librNombre"));
             libro.setLibrIsbn(payload.getString("librIsbn"));
-            libro.setLibrCantejemplares(0);
+            libro.setLibrCantejemplares(1);
             
-            if (this.FACADE_GENERAL.registerLibro(libro)) {
+            if (FACADE_GENERAL.registerLibro(libro)) {
                 return WsUtil.ok("Libro registrado correctamente");
             } else {
-                return WsUtil.internalError("Ocurrió un error");
+                return WsUtil.internalError(StringUtils.printString(libro.getError(), "Ocurrió un error al registrar el libro"));
             }
         } catch (Exception e) {
+            e.printStackTrace();
             return WsUtil.internalError(e.getMessage());
         }
     }
@@ -63,7 +64,7 @@ public class LibroResource {
     @Path("/list")
     public Response listLibros() {
         try {
-            return WsUtil.ok(new JSONArray(this.FACADE_GENERAL.listLibros()));
+            return WsUtil.ok(new JSONArray(FACADE_GENERAL.listLibros()));
         } catch (Exception e) {
             return WsUtil.internalError(e.getMessage());
         }
