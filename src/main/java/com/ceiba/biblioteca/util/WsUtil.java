@@ -59,7 +59,7 @@ public class WsUtil {
     public static Response ok(String mensaje) {
         try {
             JSONObject resp = new JSONObject();
-            resp.put("mensaje", mensaje);
+            resp.put("message", mensaje);
             return Response.ok(resp.toString()).build();
 
         } catch (JSONException je) {
