@@ -30,5 +30,9 @@ public class FacadeGeneral {
     public List<Libro> listLibros () {
         return this.mediatorLibro.listLibros();
     }
+    
+    public boolean deleteLibro(Integer librId) {
+        return this.mediatorLibro.deleteLibro(librId);
+    }
 
 }

@@ -14,6 +14,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -65,6 +66,23 @@ public class LibroResource {
     public Response listLibros() {
         try {
             return WsUtil.ok(new JSONArray(FACADE_GENERAL.listLibros()));
+        } catch (Exception e) {
+            return WsUtil.internalError(e.getMessage());
+        }
+    }
+    
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/del")
+    public Response deleteLibro(InputStream incomingData) {
+        try {
+            JSONObject payload = WsUtil.requestToJsonObject(incomingData);
+            if(FACADE_GENERAL.deleteLibro(payload.getInt("librId"))) {
+                return WsUtil.ok("Libro eliminado correctamente");
+            } else {
+                return WsUtil.internalError("Ocurrió un error eliminando el libro");
+            }
         } catch (Exception e) {
             return WsUtil.internalError(e.getMessage());
         }

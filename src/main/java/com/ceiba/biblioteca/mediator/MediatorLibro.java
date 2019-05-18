@@ -32,7 +32,7 @@ public class MediatorLibro {
 
             if (listConMismoISBN != null && listConMismoISBN.size() > 0) {
                 Libro libroEncontrado = listConMismoISBN.get(0);
-                if (listConMismoISBN.get(0).getLibrNombre().equalsIgnoreCase(libro.getLibrNombre())) {
+                if (!listConMismoISBN.get(0).getLibrNombre().equalsIgnoreCase(libro.getLibrNombre())) {
                     libro.setError("El ISBN ingresado ya pertenece a un libro");
                     return false;
                 }
@@ -58,6 +58,8 @@ public class MediatorLibro {
             entityManager.getTransaction().begin();
 
             libro = entityManager.find(Libro.class, libro.getLibrId());
+            entityManager.getTransaction().commit();
+            entityManager.close();
         } catch (Exception e) {
             System.out.println("ControllerLibro :: findLibro :: " + e.getMessage());
             entityManager.close();
@@ -69,11 +71,30 @@ public class MediatorLibro {
         EntityManager entityManager = EntityManagerUtil.getEntityManager();
         List<Libro> lista = null;
         try {
+            entityManager.getTransaction().begin();
             lista = entityManager.createNamedQuery("Libro.findAll").getResultList();
+            entityManager.getTransaction().commit();
+            entityManager.close();
         } catch (Exception e) {
             System.out.println("ControllerLibro :: listLibros :: " + e.getMessage());
             entityManager.close();
         }
         return lista;
+    }
+    
+    public boolean deleteLibro(Integer librId) {
+        EntityManager entityManager = EntityManagerUtil.getEntityManager();
+        try {
+            entityManager.getTransaction().begin();
+            int result = entityManager.createNamedQuery("Libro.deleteByLibrId").setParameter("librId", librId).executeUpdate();
+            System.out.println(result);
+            entityManager.getTransaction().commit();
+            entityManager.close();
+        } catch (Exception e) {
+            System.out.println("ControllerLibro :: deleteLibro :: " + e.getMessage());
+            e.printStackTrace();
+            entityManager.close();
+        }
+        return true;
     }
 }

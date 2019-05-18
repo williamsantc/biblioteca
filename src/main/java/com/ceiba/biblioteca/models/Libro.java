@@ -37,7 +37,8 @@ import org.codehaus.jackson.annotate.JsonIgnore;
     , @NamedQuery(name = "Libro.findByLibrId", query = "SELECT l FROM Libro l WHERE l.librId = :librId")
     , @NamedQuery(name = "Libro.findByLibrIsbn", query = "SELECT l FROM Libro l WHERE l.librIsbn = :librIsbn")
     , @NamedQuery(name = "Libro.findByLibrNombre", query = "SELECT l FROM Libro l WHERE l.librNombre = :librNombre")
-    , @NamedQuery(name = "Libro.findByLibrCantejemplares", query = "SELECT l FROM Libro l WHERE l.librCantejemplares = :librCantejemplares")})
+    , @NamedQuery(name = "Libro.findByLibrCantejemplares", query = "SELECT l FROM Libro l WHERE l.librCantejemplares = :librCantejemplares")
+    , @NamedQuery(name = "Libro.deleteByLibrId", query= "DELETE FROM Libro l where l.librId = :librId")})
 public class Libro implements Serializable {
 
     private static final long serialVersionUID = 1L;
