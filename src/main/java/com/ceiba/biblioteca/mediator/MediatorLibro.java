@@ -29,14 +29,15 @@ public class MediatorLibro {
         EntityManager entityManager = EntityManagerUtil.getEntityManager();
         try {
             entityManager.getTransaction().begin();
-            Libro libroConMismoISBN = (Libro) entityManager.createNamedQuery("Libro.findByLibrIsbn").setParameter("librIsbn", libro.getLibrIsbn()).getSingleResult();
+            List<Libro> libroConMismoISBN = entityManager.createNamedQuery("Libro.findByLibrIsbn").setParameter("librIsbn", libro.getLibrIsbn()).getResultList();
 
-            if (libroConMismoISBN != null) {
-                if (!libroConMismoISBN.getLibrNombre().equalsIgnoreCase(libro.getLibrNombre())) {
+            if (libroConMismoISBN != null && libroConMismoISBN.size() > 0) {
+                Libro libroFound = libroConMismoISBN.get(0);
+                if (!libroFound.getLibrNombre().equalsIgnoreCase(libro.getLibrNombre())) {
                     libro.setError("El ISBN ingresado ya pertenece a un libro");
                     return false;
                 }
-                libroConMismoISBN.setLibrCantejemplares(libroConMismoISBN.getLibrCantejemplares() + 1);
+                libroFound.setLibrCantejemplares(libroFound.getLibrCantejemplares() + 1);
             } else {
                 entityManager.persist(libro);
             }
