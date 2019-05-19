@@ -20,6 +20,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -133,6 +134,17 @@ public class Prestamo implements Serializable {
     @Override
     public String toString() {
         return "com.ceiba.biblioteca.models.Prestamo[ presId=" + presId + " ]";
+    }
+    
+    @Transient
+    private String error;
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
     }
     
 }

@@ -29,47 +29,47 @@ public class MediatorLibro {
         EntityManager entityManager = EntityManagerUtil.getEntityManager();
         try {
             entityManager.getTransaction().begin();
-            List<Libro> listConMismoISBN = entityManager.createNamedQuery("Libro.findByLibrIsbn").setParameter("librIsbn", libro.getLibrIsbn()).getResultList();
+            Libro libroConMismoISBN = (Libro) entityManager.createNamedQuery("Libro.findByLibrIsbn").setParameter("librIsbn", libro.getLibrIsbn()).getSingleResult();
 
-            if (listConMismoISBN != null && listConMismoISBN.size() > 0) {
-                Libro libroEncontrado = listConMismoISBN.get(0);
-                if (!listConMismoISBN.get(0).getLibrNombre().equalsIgnoreCase(libro.getLibrNombre())) {
+            if (libroConMismoISBN != null) {
+                if (!libroConMismoISBN.getLibrNombre().equalsIgnoreCase(libro.getLibrNombre())) {
                     libro.setError("El ISBN ingresado ya pertenece a un libro");
                     return false;
                 }
-                libroEncontrado.setLibrCantejemplares(libroEncontrado.getLibrCantejemplares() + 1);
+                libroConMismoISBN.setLibrCantejemplares(libroConMismoISBN.getLibrCantejemplares() + 1);
             } else {
                 entityManager.persist(libro);
             }
             
             entityManager.getTransaction().commit();
-            entityManager.close();
             response = true;
         } catch (Exception e) {
-            System.out.println("ControllerLibro :: registerLibro :: " + e.getMessage());
+            System.out.println("MediatorLibro :: registerLibro :: " + e.getMessage());
             e.printStackTrace();
+        } finally {
             entityManager.close();
+            EntityManagerUtil.closeFactory();
         }
-        EntityManagerUtil.closeFactory();
+        
         return response;
     }
 
-    public Libro findLibro(String idLibro) {
+    public Libro findLibro(String librId) {
         Libro libro = null;
         EntityManagerUtil.createFactory();
         EntityManager entityManager = EntityManagerUtil.getEntityManager();
         try {
             entityManager.getTransaction().begin();
 
-            libro = entityManager.find(Libro.class, libro.getLibrId());
+            libro = entityManager.find(Libro.class, librId);
             entityManager.getTransaction().commit();
-            entityManager.close();
         } catch (Exception e) {
-            System.out.println("ControllerLibro :: findLibro :: " + e.getMessage());
+            System.out.println("MediatorLibro :: findLibro :: " + e.getMessage());
             e.printStackTrace();
+        } finally {
             entityManager.close();
+            EntityManagerUtil.closeFactory();
         }
-        EntityManagerUtil.closeFactory();
         return libro;
     }
 
@@ -81,13 +81,13 @@ public class MediatorLibro {
             entityManager.getTransaction().begin();
             lista = entityManager.createNamedQuery("Libro.findAll").getResultList();
             entityManager.getTransaction().commit();
-            entityManager.close();
         } catch (Exception e) {
-            System.out.println("ControllerLibro :: listLibros :: " + e.getMessage());
+            System.out.println("MediatorLibro :: listLibros :: " + e.getMessage());
             e.printStackTrace();
+        } finally {
             entityManager.close();
+            EntityManagerUtil.closeFactory();
         }
-        EntityManagerUtil.closeFactory();
         return lista;
     }
     
@@ -99,13 +99,13 @@ public class MediatorLibro {
             int result = entityManager.createNamedQuery("Libro.deleteByLibrId").setParameter("librId", librId).executeUpdate();
             System.out.println(result);
             entityManager.getTransaction().commit();
-            entityManager.close();
         } catch (Exception e) {
-            System.out.println("ControllerLibro :: deleteLibro :: " + e.getMessage());
+            System.out.println("MediatorLibro :: deleteLibro :: " + e.getMessage());
             e.printStackTrace();
+        } finally {
             entityManager.close();
+            EntityManagerUtil.closeFactory();
         }
-        EntityManagerUtil.closeFactory();
         return true;
     }
 }

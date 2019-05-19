@@ -6,7 +6,11 @@
 package com.ceiba.biblioteca.facade;
 
 import com.ceiba.biblioteca.mediator.MediatorLibro;
+import com.ceiba.biblioteca.mediator.MediatorPrestamo;
+import com.ceiba.biblioteca.mediator.MediatorUsuario;
 import com.ceiba.biblioteca.models.Libro;
+import com.ceiba.biblioteca.models.Prestamo;
+import com.ceiba.biblioteca.models.Usuario;
 import java.util.List;
 
 /**
@@ -23,8 +27,16 @@ public class FacadeGeneral {
 
     private final MediatorLibro mediatorLibro = MediatorLibro.getInstance();
     
+    private final MediatorPrestamo mediatorPrestamo = MediatorPrestamo.getInstance();
+    
+    private final MediatorUsuario mediatorUsuario = MediatorUsuario.getInstance();
+    
     public boolean registerLibro(Libro libro) {
         return this.mediatorLibro.registerLibro(libro);
+    }
+    
+    public Libro findLibro(String idLibro) {
+        return this.mediatorLibro.findLibro(idLibro);
     }
     
     public List listLibros () {
@@ -33,6 +45,14 @@ public class FacadeGeneral {
     
     public boolean deleteLibro(Integer librId) {
         return this.mediatorLibro.deleteLibro(librId);
+    }
+    
+    public boolean registerPrestamo(Prestamo prestamo) {
+        return this.mediatorPrestamo.registerPrestamo(prestamo);
+    }
+    
+    public Usuario findUsuario (String usuaId) {
+        return this.mediatorUsuario.findUsuario(usuaId);
     }
 
 }
