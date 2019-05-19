@@ -36,7 +36,8 @@ public class MediatorPrestamo {
             long currentDate = Calendar.getInstance().getTimeInMillis();
             prestamo.setPresFecha(new Date(currentDate));
             
-            Libro libro = (Libro) entityManager.createNamedQuery("Libro.findByLibrId").setParameter("librId", prestamo.getLibrId()).getSingleResult();
+            Libro libro = prestamo.getLibrId();
+            
             if(Methods.esPalindromo(libro.getLibrIsbn())) {
                 prestamo.setError("Los libros palíndromos solo se pueden utilizar en la biblioteca.");
                 return false;
@@ -64,7 +65,6 @@ public class MediatorPrestamo {
             entityManager.persist(prestamo);
             
             entityManager.getTransaction().commit();
-            entityManager.close();
             response = true;
         } catch (Exception e) {
             System.out.println("MediatorPrestamo :: registrarPrestamo :: " + e.getMessage());
