@@ -67,6 +67,7 @@ public class LibroResource {
         try {
             return WsUtil.ok(new JSONArray(FACADE_GENERAL.listLibros()));
         } catch (Exception e) {
+            e.printStackTrace();
             return WsUtil.internalError(e.getMessage());
         }
     }

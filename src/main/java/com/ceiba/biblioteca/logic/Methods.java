@@ -10,25 +10,26 @@ package com.ceiba.biblioteca.logic;
  * @author ACER
  */
 public class Methods {
-    
-        
-    public static int sumaisbn (String c){
-        int cont=0;
-        for(int i=0;i<c.length();i++){
-            if (c.charAt(i)>=48&&c.charAt(i)<=57)
-                cont=cont+(c.charAt(i)-48);
+
+    public static int sumaDigitosNumericos(String c) {
+        int acum = 0;
+        for (int i = 0; i < c.length(); i++) {
+            if (c.charAt(i) >= 48 && c.charAt(i) <= 57) {
+                acum = acum + (c.charAt(i) - 48);
+            }
         }
-        return cont;
+        return acum;
     }
-    
-    public static boolean palindromo(String c){
-        int j=c.length()-1;
-        for(int i=0;i<(int)(c.length()/2);i++){
-            if (c.charAt(i)!=c.charAt(j))return false;
-            j--;
+
+    public static boolean esPalindromo(String c) {
+        c = c.toUpperCase();
+        int j = c.length() - 1;
+        for (int i = 0; i < c.length() / 2; i++) {
+            if (c.charAt(i) != c.charAt(j - i)) {
+                return false;
+            }
         }
         return true;
     }
-    
-}
 
+}

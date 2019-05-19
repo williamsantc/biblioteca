@@ -21,13 +21,13 @@ public class FacadeGeneral {
         return INSTANCE;
     }
 
-    private final MediatorLibro mediatorLibro = new MediatorLibro();
+    private final MediatorLibro mediatorLibro = MediatorLibro.getInstance();
     
     public boolean registerLibro(Libro libro) {
         return this.mediatorLibro.registerLibro(libro);
     }
     
-    public List<Libro> listLibros () {
+    public List listLibros () {
         return this.mediatorLibro.listLibros();
     }
     

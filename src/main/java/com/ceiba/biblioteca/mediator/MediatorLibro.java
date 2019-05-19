@@ -25,6 +25,7 @@ public class MediatorLibro {
     public boolean registerLibro(Libro libro) {
 
         boolean response = false;
+        EntityManagerUtil.createFactory();
         EntityManager entityManager = EntityManagerUtil.getEntityManager();
         try {
             entityManager.getTransaction().begin();
@@ -46,13 +47,16 @@ public class MediatorLibro {
             response = true;
         } catch (Exception e) {
             System.out.println("ControllerLibro :: registerLibro :: " + e.getMessage());
+            e.printStackTrace();
             entityManager.close();
         }
+        EntityManagerUtil.closeFactory();
         return response;
     }
 
     public Libro findLibro(String idLibro) {
         Libro libro = null;
+        EntityManagerUtil.createFactory();
         EntityManager entityManager = EntityManagerUtil.getEntityManager();
         try {
             entityManager.getTransaction().begin();
@@ -62,12 +66,15 @@ public class MediatorLibro {
             entityManager.close();
         } catch (Exception e) {
             System.out.println("ControllerLibro :: findLibro :: " + e.getMessage());
+            e.printStackTrace();
             entityManager.close();
         }
+        EntityManagerUtil.closeFactory();
         return libro;
     }
 
     public List<Libro> listLibros() {
+        EntityManagerUtil.createFactory();
         EntityManager entityManager = EntityManagerUtil.getEntityManager();
         List<Libro> lista = null;
         try {
@@ -77,12 +84,15 @@ public class MediatorLibro {
             entityManager.close();
         } catch (Exception e) {
             System.out.println("ControllerLibro :: listLibros :: " + e.getMessage());
+            e.printStackTrace();
             entityManager.close();
         }
+        EntityManagerUtil.closeFactory();
         return lista;
     }
     
     public boolean deleteLibro(Integer librId) {
+        EntityManagerUtil.createFactory();
         EntityManager entityManager = EntityManagerUtil.getEntityManager();
         try {
             entityManager.getTransaction().begin();
@@ -95,6 +105,7 @@ public class MediatorLibro {
             e.printStackTrace();
             entityManager.close();
         }
+        EntityManagerUtil.closeFactory();
         return true;
     }
 }

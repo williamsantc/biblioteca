@@ -1,9 +1,0 @@
-com\ceiba\biblioteca\models\Libro.class
-com\ceiba\biblioteca\mediator\MediatorLibro.class
-com\ceiba\biblioteca\util\WsUtil.class
-com\ceiba\biblioteca\util\BadRequestException.class
-com\ceiba\biblioteca\models\Usuario.class
-com\ceiba\biblioteca\models\Prestamo.class
-com\ceiba\biblioteca\facade\FacadeGeneral.class
-com\ceiba\biblioteca\util\EntityManagerUtil.class
-com\ceiba\biblioteca\api\LibroResource.class
